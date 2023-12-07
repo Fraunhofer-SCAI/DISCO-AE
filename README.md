@@ -6,6 +6,8 @@ Collections
 
 **Authors:** Sara Hahner⋆, Souhaib Attaiki⋆, Jochen Garcke, Maks Ovsjanikov 
 
+[Arxiv](https://arxiv.org/abs/2310.18141)
+
 ⋆: Equal contribution
 
 **Conference: 3D Vision Conference 2024**
