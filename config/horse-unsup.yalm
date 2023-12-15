@@ -1,0 +1,53 @@
+# dataset params
+dataset:
+  name: GALLOP-horse-unsup-allT
+  cache_dir: data/cache
+  select_parts: ['horse']
+  templates: ['horse']
+  select_tt: np.asarray(np.arange(0,49),dtype=int)
+  p2p_maps: data/GALLOP_samp_horse_p2p.pickle
+  ndim: 3 # number of coordinates
+
+# training and optimizer params
+training:
+  epochs: 150 #1000
+  seed: 71 
+  trainsplit: list(np.delete(np.arange(49), np.arange(34,49))) 
+  batch_size: 1
+  lr: 1e-3
+  b1: 0.9
+  b2: 0.99
+  decay_iter: 180
+  decay_factor: 0.7
+
+# functional maps network
+fmnet:
+  ndim: 33 #  dimension of the encoded functional maps.
+  nCCLB: 26 # size for canonicalization of consistent latent basis
+  only_train: True # calculate LS basis using only train shapes
+  maxsize_circle: 1 # maximum number of train samples in one circle before connection to template shape
+
+# model selection
+model:
+  name: LS_DF_net
+  template_features: str('xyz') 
+  template_features_dim: 3 
+
+# diffusion net network parameters
+diffnet:
+  k_eig: 128  # number of eigenvectors used for diffusion
+  nfeature: 40 # number of embedding features 
+  k_eig_enc: 128 # number of eigenvectors used for diffusion
+  k_eig_dec: 128 # number of eigenvectors used for diffusion
+  dropout: True
+  N_block_enc: 4
+  N_block_dec: 8
+  expand_internal: 2 
+  positional: 0
+
+# misc
+misc:
+  cuda: True
+  device: 0
+  checkpoint_interval: 50
+  log_interval: 10
