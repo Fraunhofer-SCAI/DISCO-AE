@@ -8,7 +8,7 @@ Collections
 
 ⋆: Equal contribution
 
-**Conference: 3D Vision Conference 2024**
+**3D Vision Conference 2024**
 
 ## Packages
 
