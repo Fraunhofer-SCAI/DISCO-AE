@@ -25,8 +25,8 @@ Collections
 - trimesh
 
 Source-Code:
-- [pyFM](https://github.com/RobinMagnet/pyFM/tree/master/pyFM): This package provides the functions to calculate the Functional Maps and to set up the Functional Maps Network. Since we made small changes to the mesh class in an earlier version of pyFM, the code can be found in directory (pyFM).
-- [DiffusionNet](https://github.com/nmwsharp/diffusion-net): The implementation of can be found in directory (diffusion_net).
+- [pyFM](https://github.com/RobinMagnet/pyFM/tree/master/pyFM): This package provides the functions to calculate the Functional Maps and to set up the Functional Maps Network. Since we made small changes to the mesh class in an earlier version of pyFM, the code can be found in directory [pyFM](https://github.com/Fraunhofer-SCAI/DISCO-AE/tree/main/pyFM).
+- [DiffusionNet](https://github.com/nmwsharp/diffusion-net): The implementation can be found in directory [diffusion_net](https://github.com/Fraunhofer-SCAI/DISCO-AE/tree/main/diffusion_net).
 
 ## Load Data
 
