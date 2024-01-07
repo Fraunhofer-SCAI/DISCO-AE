@@ -13,34 +13,34 @@ then
     wget https://owncloud.scai.fraunhofer.de/index.php/s/5oiYYZPYf7ipmCt/download/Data_elephant.tar.gz
     echo "tar -xzvf $folder.tar.gz && rm $folder.tar.gz"
     tar -xzvf $folder.tar.gz && rm $folder.tar.gz
-    
+
     folder=Data_horse
     wget https://owncloud.scai.fraunhofer.de/index.php/s/nfPjcsJCAntDdjk/download/Data_horse.tar.gz
     echo "tar -xzvf $folder.tar.gz && rm $folder.tar.gz"
     tar -xzvf $folder.tar.gz && rm $folder.tar.gz
-    
+
     folder=Data_camel
     wget https://owncloud.scai.fraunhofer.de/index.php/s/x6Mi5Q3nzKRrjzK/download/Data_camel.tar.gz
     echo "tar -xzvf $folder.tar.gz && rm $folder.tar.gz"
     tar -xzvf $folder.tar.gz && rm $folder.tar.gz
-    
+
     echo "load the p2p maps"
     wget https://owncloud.scai.fraunhofer.de/index.php/s/52mzPiQeJQ5kZpB/download/GALLOP_samp_.tar.gz
     maps=GALLOP_samp_
     tar -xzvf $maps.tar.gz && rm $maps.tar.gz
 
 elif [[ "$dataset" == "FAUST" ]]
-then 
+then
     folder=Data_FAUST
     wget https://owncloud.scai.fraunhofer.de/index.php/s/DTHAEB9BfyZsar6/download/Data_FAUST.tar.gz
     echo "tar -xzvf $folder.tar.gz && rm $folder.tar.gz"
     tar -xzvf $folder.tar.gz && rm $folder.tar.gz
-    
+
     echo "load the p2p maps"
     wget https://owncloud.scai.fraunhofer.de/index.php/s/B93fZJAdxzqJ2yL/download/FAUST_.tar.gz
     maps=FAUST_
     tar -xzvf $maps.tar.gz && rm $maps.tar.gz
-    
+
 else
     echo "Not a valid dataset."
 fi

@@ -6,7 +6,7 @@ import os
 import os.path as osp
 from tqdm import tqdm
 from utils.FMN_Dataset import FMN_Dataset, collate_fn, shape_to_device
-from utils.model_eval_functions import model_id_gen, FMN_id_gen, get_emb_size, def_model, eval_yalm, save_pred_emb_and_loss, print_losses
+from utils.model_eval_functions import model_id_gen, FMN_id_gen, get_emb_size, def_model, eval_yalm, save_pred_emb_and_loss
 
 from utils.model_eval_functions import eval_network
 import time
@@ -135,7 +135,7 @@ def train_network(cfg):
 
     # define model
     ae_network = def_model(cfg, device)
-    
+
     lr = float(cfg["training"]["lr"])
 
     optimizer = torch.optim.Adam(
@@ -246,7 +246,7 @@ def train_network(cfg):
         if log_iter:
             txt1 = "#epoch:{}".format(epoch)
             txt2 = "#MSE-loss:{:10.8f}".format(avg_loss / len(train_loader))
-            txt3 = "#Runtime:{:10.8f}".format(time.time()-tmp_time)
+            txt3 = "#Runtime:{:10.8f}".format(time.time() - tmp_time)
             tmp_time = time.time()
             log_file.write(txt1 + "\n" + txt2 + "\n" + txt3 + "\n")
             # print all losses
@@ -334,8 +334,6 @@ def train_network(cfg):
             pickle.dump(collect_test_loader, handle)
         with open(load_cache_train, "wb") as handle:
             pickle.dump(collect_train_loader, handle)
-
-        #print_losses(cfg, collect_test_loader, collect_train_loader, log_file=log_file)
 
         # close log file
         log_file.close()

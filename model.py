@@ -51,7 +51,6 @@ class concatenateTemplateFeatures(nn.Module):
         return x
 
 
-
 # limit shape diffusion net autoencoder. only trainable part are the diffusion net blocks
 class LS_DF_net(nn.Module):
     """
@@ -284,7 +283,6 @@ class LS_DF_net(nn.Module):
         )
 
         return verts_reconstruct
-
 
 
 class p2p_to_FM(nn.Module):
