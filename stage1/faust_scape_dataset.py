@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import sys
 from itertools import permutations, combinations
 import numpy as np
@@ -66,21 +67,18 @@ class FaustScapeDataset(Dataset):
 
         # Get all the files
         mesh_files = []
-        vts_files = []
 
         # load faust data
-        mesh_dirpath = os.path.join(self.root_dir, name, "shapes")
-        vts_dirpath = os.path.join(self.root_dir, name, "correspondences")
-        for fname in os.listdir(mesh_dirpath):
+        mesh_dirpath = (Path(self.root_dir)).resolve()
+        for fname in mesh_dirpath.iterdir():
+            if fname.suffix != ".off":
+                continue
             mesh_fullpath = os.path.join(mesh_dirpath, fname)
-            vts_fullpath = os.path.join(vts_dirpath, fname[:-4] + ".vts")
             mesh_files.append(mesh_fullpath)
-            vts_files.append(vts_fullpath)
 
         print("loading {} meshes".format(len(mesh_files)))
 
-        # TODO verify that they are sorted correctly
-        mesh_files, vts_files = sorted(mesh_files), sorted(vts_files)
+        mesh_files = sorted(mesh_files)
 
         # Load the actual files
         for iFile in range(len(mesh_files)):
@@ -88,12 +86,10 @@ class FaustScapeDataset(Dataset):
             print("loading mesh " + str(mesh_files[iFile]))
 
             verts, faces = pp3d.read_mesh(mesh_files[iFile])
-            vts_file = np.loadtxt(vts_files[iFile]).astype(int)
 
             # to torch
             verts = torch.tensor(np.ascontiguousarray(verts)).float()
             faces = torch.tensor(np.ascontiguousarray(faces))
-            vts_file = torch.tensor(np.ascontiguousarray(vts_file))
 
             # center and unit scale
             verts = diffusion_net.geometry.normalize_positions(verts)
@@ -103,7 +99,6 @@ class FaustScapeDataset(Dataset):
 
             self.verts_list.append(verts)
             self.faces_list.append(faces)
-            self.vts_list.append(vts_file)
             self.names_list.append(os.path.basename(mesh_files[iFile]).split(".")[0])
             idx0 = farthest_point_sample(verts.t(), ratio=0.9)
             dists, idx1 = square_distance(verts.unsqueeze(0), verts[idx0].unsqueeze(0)).sort(dim=-1)
@@ -171,7 +166,6 @@ class FaustScapeDataset(Dataset):
             "gradX": self.gradX_list[idx1],
             "gradY": self.gradY_list[idx1],
             "name": self.names_list[idx1],
-            "vts": self.vts_list[idx1],
             "sample_idx": self.sample_list[idx1],
         }
 
@@ -186,22 +180,10 @@ class FaustScapeDataset(Dataset):
             "gradX": self.gradX_list[idx2],
             "gradY": self.gradY_list[idx2],
             "name": self.names_list[idx2],
-            "vts": self.vts_list[idx2],
             "sample_idx": self.sample_list[idx2],
         }
 
-        # Compute fmap
-        vts1, vts2 = shape1["vts"], shape2["vts"]
-        evec_1, evec_2 = shape1["evecs"][:, :self.n_fmap], shape2["evecs"][:, :self.n_fmap]
-        evec_1_a, evec_2_a = evec_1[vts1], evec_2[vts2]
-        C_gt = torch.lstsq(evec_2_a, evec_1_a)[0][:evec_1_a.size(-1)].t()
-
-        # create map21
-        map21 = torch.ones(shape2["xyz"].size(0)).long().detach() * -1
-        map21[vts2] = vts1
-
-        return {"shape1": shape1, "shape2": shape2, "C_gt": C_gt,
-                "map1": vts1, "map2": vts2, "map21": map21}
+        return {"shape1": shape1, "shape2": shape2}
 
 
 def shape_to_device(dict_shape, device):

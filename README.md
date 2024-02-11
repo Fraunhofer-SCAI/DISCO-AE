@@ -39,7 +39,12 @@ Download data and p2p maps:
 
    
 ## Get Point-to-Point Maps 
+To train the first stage in our pipeline, and extract the point-to-point maps, run the following command:
 
+   ```sh
+   cd stage1
+   python 01_train_FM.py --config faust
+   ```
 
 
 ## DISCO-autoencoder

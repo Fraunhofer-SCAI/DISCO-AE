@@ -1,0 +1,42 @@
+# dataset params
+dataset:
+  name: faust
+  root_train: ../data/Data_FAUST
+  root_test: ../data/Data_FAUST
+  cache_dir: ../data/Data_FAUST/op_cache
+
+
+
+# optimizer params
+optimizer:
+  lr: 1e-3
+  b1: 0.9
+  b2: 0.99
+  decay_iter: 3
+  decay_factor: 0.5
+
+training:
+  batch_size: 4
+  epochs: 5
+
+# fmap module params
+fmap:
+  n_fmap: 50  # number of eigenvectors used for fmap
+  k_eig: 128  # number of eigenvectors used for diffusion
+  n_feat: 128
+  C_in: 3
+  lambda_: 100
+  resolvant_gamma: 0.5
+  robust: False
+
+# loss params
+loss:
+  w_bij: 1
+  w_ortho: 1
+
+# misc
+misc:
+  cuda: True
+  device: 1
+  checkpoint_interval: 5
+  log_interval: 50

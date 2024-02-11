@@ -1,3 +1,5 @@
+import random
+import numpy as np
 import torch
 import torch.nn as nn
 
@@ -63,3 +65,50 @@ def get_mask(evals1, evals2, gamma=0.5, device="cpu"):
     M_re = evals_gamma2 / (evals_gamma2.square() + 1) - evals_gamma1 / (evals_gamma1.square() + 1)
     M_im = 1 / (evals_gamma2.square() + 1) - 1 / (evals_gamma1.square() + 1)
     return M_re.square() + M_im.square()
+
+
+def euler_angles_to_rotation_matrix(theta):
+    R_x = torch.tensor([[1, 0, 0], [0, torch.cos(theta[0]), -torch.sin(theta[0])], [0, torch.sin(theta[0]), torch.cos(theta[0])]])
+    R_y = torch.tensor([[torch.cos(theta[1]), 0, torch.sin(theta[1])], [0, 1, 0], [-torch.sin(theta[1]), 0, torch.cos(theta[1])]])
+    R_z = torch.tensor([[torch.cos(theta[2]), -torch.sin(theta[2]), 0], [torch.sin(theta[2]), torch.cos(theta[2]), 0], [0, 0, 1]])
+
+    matrices = [R_x, R_y, R_z]
+
+    R = torch.mm(matrices[2], torch.mm(matrices[1], matrices[0]))
+    return R
+
+
+def get_random_rotation(x, y, z):
+    thetas = torch.zeros(3, dtype=torch.float)
+    degree_angles = [x, y, z]
+    for axis_ind, deg_angle in enumerate(degree_angles):
+        rand_deg_angle = random.random() * 2 * deg_angle - deg_angle
+        rand_radian_angle = float(rand_deg_angle * np.pi) / 180.0
+        thetas[axis_ind] = rand_radian_angle
+
+    return euler_angles_to_rotation_matrix(thetas)
+
+
+def data_augmentation(verts, rot_x=0, rot_y=90, rot_z=0, std=0.01, noise_clip=0.05, scale_min=0.9, scale_max=1.1):
+    # random rotation
+    rotation_matrix = get_random_rotation(rot_x, rot_y, rot_z).to(verts.device)
+    verts = verts @ rotation_matrix.T
+
+    # random noise
+    noise = std * torch.randn(verts.shape).to(verts.device)
+    noise = noise.clamp(-noise_clip, noise_clip)
+    verts += noise
+
+    # random scaling
+    scales = [scale_min, scale_max]
+    scale = scales[0] + torch.rand((3,)) * (scales[1] - scales[0])
+    verts = verts * scale.to(verts.device)
+
+    return verts
+
+
+def augment_batch(data, rot_x=0, rot_y=90, rot_z=0, std=0.01, noise_clip=0.05, scale_min=0.9, scale_max=1.1):
+    data["shape1"]["xyz"] = data_augmentation(data["shape1"]["xyz"], rot_x, rot_y, rot_z, std, noise_clip, scale_min, scale_max)
+    data["shape2"]["xyz"] = data_augmentation(data["shape2"]["xyz"], rot_x, rot_y, rot_z, std, noise_clip, scale_min, scale_max)
+
+    return data

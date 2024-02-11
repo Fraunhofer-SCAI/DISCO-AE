@@ -18,14 +18,14 @@ def train_net(args):
     op_cache_dir = os.path.join(base_path, cfg["dataset"]["cache_dir"])
     dataset_path = os.path.join(base_path, cfg["dataset"]["root_train"])
 
-    save_dir_name = f'saved_models_{cfg["dataset"]["subset"]}'
+    save_dir_name = f'saved_models_{cfg["dataset"]["name"]}'
     model_save_path = os.path.join(base_path, f"data/{save_dir_name}/ep" + "_{}.pth")
     if not os.path.exists(os.path.join(base_path, f"data/{save_dir_name}/")):
         os.makedirs(os.path.join(base_path, f"data/{save_dir_name}/"))
 
     # create dataset
     if cfg["dataset"]["name"] == "faust":
-        train_dataset = FaustScapeDataset(dataset_path, name=cfg["dataset"]["subset"], k_eig=cfg["fmap"]["k_eig"],
+        train_dataset = FaustScapeDataset(dataset_path, name=cfg["dataset"]["name"], k_eig=cfg["fmap"]["k_eig"],
                                           n_fmap=cfg["fmap"]["n_fmap"], use_cache=True, op_cache_dir=op_cache_dir)
         train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=None, shuffle=True)
     else:
@@ -73,7 +73,7 @@ def train_net(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Launch the training of FMNet model.")
+    parser = argparse.ArgumentParser(description="Launch the training of FMap model.")
 
     parser.add_argument("--config", type=str, default="faust", help="Config file name")
 

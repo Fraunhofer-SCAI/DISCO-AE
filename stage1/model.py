@@ -68,8 +68,6 @@ class GeomFMapNet(nn.Module):
 
         # parameters
         self.n_fmap = cfg["fmap"]["n_fmap"]
-        self.n_cfmap = cfg["fmap"]["n_cfmap"]
-        self.robust = cfg["fmap"]["robust"]
 
     def forward(self, batch):
         verts1, faces1, mass1, L1, evals1, evecs1, gradX1, gradY1 = (batch["shape1"]["xyz"], batch["shape1"]["faces"],
@@ -108,7 +106,7 @@ class FMLoss(nn.Module):
         self.w_ortho = w_ortho
 
         # frob loss function
-        self.frob_loss = FrobeniusLoss()
+        self.criterion = FrobeniusLoss()
 
     def forward(self, C1, C2):
         loss = 0
@@ -122,6 +120,6 @@ class FMLoss(nn.Module):
         if self.w_ortho > 0:
             orthogonality_loss = self.criterion(torch.bmm(C1.transpose(1, 2), C1), eye_batch)
             orthogonality_loss += self.criterion(torch.bmm(C2.transpose(1, 2), C2), eye_batch)
-            loss += orthogonality_loss * self.w_orth
+            loss += orthogonality_loss * self.w_ortho
 
         return loss
