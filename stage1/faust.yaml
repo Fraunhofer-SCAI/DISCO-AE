@@ -37,6 +37,6 @@ loss:
 # misc
 misc:
   cuda: True
-  device: 1
+  device: 0
   checkpoint_interval: 5
   log_interval: 50
