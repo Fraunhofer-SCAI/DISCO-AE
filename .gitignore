@@ -5,7 +5,7 @@ data
 logs
 *Copy*
 **/.ipynb_checkpoints/*
-pyFM
+
 reconstructed_meshes/
 embedding_plots/
 gen_meshes/

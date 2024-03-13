@@ -29,6 +29,15 @@ then
     maps=GALLOP_samp_
     tar -xzvf $maps.tar.gz && rm $maps.tar.gz
 
+elif [[ "$dataset" == "TRUCK" ]]
+then
+    folder=TRUCK_data_DISCO_AE
+    wget https://owncloud.scai.fraunhofer.de/index.php/s/9Ke2fXNcepPwqas/download/TRUCK_data_DISCO_AE.tar
+    echo "tar -xzvf $folder.tar.gz && rm $folder.tar.gz"
+    tar -xzvf $folder.tar.gz && rm $folder.tar.gz
+    mv $folder/* .
+    rm -r $folder
+
 elif [[ "$dataset" == "FAUST" ]]
 then
     folder=Data_FAUST
