@@ -3,6 +3,7 @@ import yaml
 import os
 import torch
 from faust_scape_dataset import FaustScapeDataset, shape_to_device
+from gallop_dataset import GallopDataset
 from model import FMLoss, GeomFMapNet
 from utils import augment_batch
 
@@ -19,14 +20,18 @@ def train_net(args):
     dataset_path = os.path.join(base_path, cfg["dataset"]["root_train"])
 
     save_dir_name = f'saved_models_{cfg["dataset"]["name"]}'
-    model_save_path = os.path.join(base_path, f"data/{save_dir_name}/ep" + "_{}.pth")
-    if not os.path.exists(os.path.join(base_path, f"data/{save_dir_name}/")):
-        os.makedirs(os.path.join(base_path, f"data/{save_dir_name}/"))
+    model_save_path = os.path.join(base_path, f"../data/{save_dir_name}/ep" + "_{}.pth")
+    if not os.path.exists(os.path.join(base_path, f"../data/{save_dir_name}/")):
+        os.makedirs(os.path.join(base_path, f"../data/{save_dir_name}/"))
 
     # create dataset
     if cfg["dataset"]["name"] == "faust":
         train_dataset = FaustScapeDataset(dataset_path, name=cfg["dataset"]["name"], k_eig=cfg["fmap"]["k_eig"],
                                           n_fmap=cfg["fmap"]["n_fmap"], use_cache=True, op_cache_dir=op_cache_dir)
+        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=None, shuffle=True)
+    elif cfg["dataset"]["name"] == "horse":
+        train_dataset = GallopDataset(dataset_path, name=cfg["dataset"]["name"], k_eig=cfg["fmap"]["k_eig"],
+                                      n_fmap=cfg["fmap"]["n_fmap"], use_cache=True, op_cache_dir=op_cache_dir)
         train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=None, shuffle=True)
     else:
         raise NotImplementedError("dataset not implemented!")

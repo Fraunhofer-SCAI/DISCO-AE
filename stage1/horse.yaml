@@ -1,9 +1,9 @@
 # dataset params
 dataset:
-  name: faust
-  root_train: ../data/Data_FAUST
-  root_test: ../data/Data_FAUST
-  cache_dir: ../data/Data_FAUST/op_cache
+  name: horse
+  root_train: ../data/Data_horse
+  root_test: ../data/Data_horse
+  cache_dir: ../data/Data_horse/op_cache
 
 
 
