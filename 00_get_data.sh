@@ -33,10 +33,8 @@ elif [[ "$dataset" == "TRUCK" ]]
 then
     folder=TRUCK_data_DISCO_AE
     wget https://owncloud.scai.fraunhofer.de/index.php/s/9Ke2fXNcepPwqas/download/TRUCK_data_DISCO_AE.tar
-    echo "tar -xzvf $folder.tar.gz && rm $folder.tar.gz"
-    tar -xzvf $folder.tar.gz && rm $folder.tar.gz
-    mv $folder/* .
-    rm -r $folder
+    echo "tar -xzvf $folder.tar && rm $folder.tar"
+    tar -xzvf $folder.tar && rm $folder.tar
 
 elif [[ "$dataset" == "FAUST" ]]
 then
@@ -54,6 +52,7 @@ else
     echo "Not a valid dataset."
 fi
 
+cd ..
 
 echo "downloaded the mesh data, true p2p maps, and unsupervised p2p maps, and putting it in data directory"
 

@@ -35,6 +35,7 @@ Download data and p2p maps:
    ```sh
     ./00_get_data.sh gallop
     ./00_get_data.sh FAUST
+    ./00_get_data.sh TRUCK
    ```
 
    
@@ -56,13 +57,14 @@ The paper explains the experiment setups in detail.
     python 02_train_network.py --config gallop
     python 02_train_network.py --config faust-extra
     python 02_train_network.py --config faust-inter
+    python 02_train_network.py --config TRUCK_pall 
    ```
 
 Unsupervised DISCO-AE for selected GALLOP and FAUST setups.
 
    ```sh
-    python 02_train_network.py --config horse-unsup
-    python 02_train_network.py --config faust-unsup-inter
+    python 02_train_network.py --config horse-unsup --loss_rec 10
+    python 02_train_network.py --config faust-unsup-inter --loss_rec 10
    ```
 
 
