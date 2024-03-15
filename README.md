@@ -45,6 +45,9 @@ To train the first stage in our pipeline, and extract the point-to-point maps, r
    ```sh
    cd stage1
    python 01_train_FM.py --config faust
+   # once the training ends, run the following command to extract the point-to-point maps
+   # weights are saved in the same folder as the data under the name "saved_models_DatasetName"
+   python get_p2p.py --config faust --weights path/to/weights
    ```
 
 

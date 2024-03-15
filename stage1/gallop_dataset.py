@@ -14,8 +14,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))  # add the path 
 import diffusion_net  # noqa
 
 
-class FaustScapeDataset(Dataset):
-    def __init__(self, root_dir, name="faust", train=True, k_eig=128, n_fmap=30, use_cache=True, op_cache_dir=None):
+class GallopDataset(Dataset):
+    def __init__(self, root_dir, name="horse", train=True, k_eig=128, n_fmap=30, use_cache=True, op_cache_dir=None):
 
         self.train = train  # bool
         self.k_eig = k_eig
@@ -32,7 +32,7 @@ class FaustScapeDataset(Dataset):
         self.sample_list = []
 
         # set combinations
-        n_total = 100 if name == "faust" else 71
+        n_total = 49
         if self.train:
             self.combinations = list(permutations(range(n_total), 2))
         else:
