@@ -38,7 +38,6 @@ Download data and p2p maps:
     ./00_get_data.sh TRUCK
    ```
 
-   
 ## Get Point-to-Point Maps 
 To train the first stage in our pipeline, and extract the point-to-point maps, run the following command:
 
@@ -50,6 +49,9 @@ To train the first stage in our pipeline, and extract the point-to-point maps, r
    python get_p2p.py --config faust --weights path/to/weights
    ```
 
+To speed up the p2p map extraction calculate only the maps necessary to define the FMN for the shape collection. 
+We recommend calculating p2p maps from every shape to the corresponding template shape and connecting the template shapes to each other.
+To reduce the runtime even further, reduce the number of ZoomOut interations.
 
 ## DISCO-autoencoder
 
