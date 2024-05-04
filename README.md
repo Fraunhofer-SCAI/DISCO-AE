@@ -52,6 +52,7 @@ To train the first stage in our pipeline, and extract the point-to-point maps, r
 To speed up the p2p map extraction calculate only the maps necessary to define the FMN for the shape collection. 
 We recommend calculating p2p maps from every shape to the corresponding template shape and connecting the template shapes to each other.
 To reduce the runtime even further, reduce the number of ZoomOut interations.
+For best results, we recommend rotating the shapes properly (facing the same direction), and for the car components, normalizing using L1 distance and mean-centering.
 
 ## DISCO-autoencoder
 
