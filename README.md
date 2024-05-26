@@ -83,3 +83,14 @@ Unsupervised DISCO-AE for selected GALLOP and FAUST setups.
 | Append TemplateShape 3D-Coord | (m, nfeature+3)      |               |
 | DiffusionNet       | (m, 3)             | X             |
 
+
+## Citation
+
+```markdown
+@InProceedings{Hahner2024,
+    author    = {Hahner, Sara and Attaiki, Souhaib and Garcke, Jochen and Ovsjanikov, Maks},
+    title     = {Unsupervised Representation Learning for Diverse Deformable Shape Collections},
+    booktitle = {Proceedings of the International Conference on 3D Vision (3DV 2024)},
+    year      = {2024},
+}
+```
